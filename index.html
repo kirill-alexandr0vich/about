@@ -27,6 +27,10 @@
 
   html{ scroll-behavior:smooth; }
 
+  #top, #about, #experience, #skills, #contact{
+    scroll-margin-top: calc(96px + env(safe-area-inset-top, 0px));
+  }
+
   html, body{ background:var(--bg); min-height:100%; }
 
   body{
@@ -76,9 +80,9 @@
 
   .logo{
     font-family:var(--serif); font-weight:500; font-size:19px;
-    letter-spacing:.02em;
+    letter-spacing:.02em; color:var(--ink); transition:color .3s;
   }
-  .logo span{ color:var(--accent); }
+  .logo span{ color:var(--accent); transition:color .3s; }
 
   nav.links{ display:flex; gap:36px; font-size:13px; letter-spacing:.05em; text-transform:uppercase; }
   nav.links a{ position:relative; color:var(--ink-dim); transition:color .3s; }
@@ -228,7 +232,7 @@
   .contact{ text-align:left; }
   .contact h2.big{
     font-family:var(--serif); font-weight:400; font-size:clamp(38px,7vw,84px); letter-spacing:-.02em; line-height:1.05;
-    margin-top:20px;
+    margin-top:60px;
   }
   .contact h2.big em{ font-style:italic; color:var(--accent); }
 
@@ -252,6 +256,8 @@
 
   /* ---------- hover effects: only on devices that truly support hover (mouse/trackpad) ---------- */
   @media (hover: hover) and (pointer: fine){
+    .logo:hover{ color:var(--accent); }
+    .logo:hover span{ color:var(--ink); }
     nav.links a:hover{ color:var(--ink); }
     nav.links a:hover::after{ width:100%; }
     .summary-card:hover{ background:#161811; color:var(--ink); }
@@ -300,7 +306,7 @@
   <a href="#top" class="logo">K<span>.</span>K</a>
   <button class="menu-btn" id="menuBtn" aria-label="Toggle menu"><span></span><span></span><span></span></button>
   <nav class="links" id="navLinks">
-    <a href="#about" data-close>About</a>
+    <a href="#top" data-close>About</a>
     <a href="#experience" data-close>Experience</a>
     <a href="#skills" data-close>Skills</a>
     <a href="#contact" data-close>Contact</a>
@@ -464,7 +470,7 @@
 </main>
 
 <footer>
-  <span class="footer-name">@2026 Kirill Kucherov</span>
+  <span class="footer-name">© 2026 Kirill Kucherov</span>
 </footer>
 
 <script>
