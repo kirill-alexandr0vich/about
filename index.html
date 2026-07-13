@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Kirill Kucherov — Frontend Engineer</title>
+<meta name="description" content="Kirill Kucherov — Frontend Software Engineer with 7+ years building scalable web applications and leading engineering teams.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0b09;
+    --bg-soft: #101210;
+    --ink: #f2efe6;
+    --ink-dim: #9a9990;
+    --ink-faint: #5c5b54;
+    --accent: #c8ff5c;
+    --accent-dim: #7c9c47;
+    --line: #232520;
+    --serif: 'Fraunces', serif;
+    --mono: 'JetBrains Mono', monospace;
+    --max: 1180px;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--mono);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  ::selection{ background:var(--accent); color:#0a0b09; }
+
+  a{ color:inherit; text-decoration:none; }
+
+  img{ max-width:100%; display:block; }
+
+  .wrap{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:0 clamp(20px, 5vw, 64px);
+  }
+
+  /* ---------- background texture ---------- */
+  .grain{
+    position:fixed; inset:0; pointer-events:none; z-index:2;
+    opacity:.035; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .glow{
+    position:fixed; top:-20%; right:-10%; width:60vw; height:60vw;
+    background:radial-gradient(circle, rgba(200,255,92,.08) 0%, rgba(200,255,92,0) 70%);
+    pointer-events:none; z-index:0;
+  }
+
+  /* ---------- nav ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px clamp(20px,5vw,64px);
+    background:linear-gradient(var(--bg) 60%, transparent);
+    backdrop-filter:blur(2px);
+  }
+
+  .logo{
+    font-family:var(--serif); font-weight:500; font-size:19px;
+    letter-spacing:.02em;
+  }
+  .logo span{ color:var(--accent); }
+
+  nav.links{ display:flex; gap:36px; font-size:13px; letter-spacing:.05em; text-transform:uppercase; }
+  nav.links a{ position:relative; color:var(--ink-dim); transition:color .3s; }
+  nav.links a::after{
+    content:''; position:absolute; left:0; bottom:-6px; width:0; height:1px;
+    background:var(--accent); transition:width .3s ease;
+  }
+  nav.links a:hover{ color:var(--ink); }
+  nav.links a:hover::after{ width:100%; }
+
+  .menu-btn{ display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:8px; z-index:60; }
+  .menu-btn span{ width:22px; height:2px; background:var(--ink); display:block; transition:.3s; }
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:100svh;
+    display:flex; flex-direction:column; justify-content:center;
+    position:relative; z-index:1;
+    padding-top:100px; padding-bottom:60px;
+  }
+
+  .eyebrow{
+    font-size:13px; letter-spacing:.18em; text-transform:uppercase; color:var(--accent);
+    display:flex; align-items:center; gap:12px; margin-bottom:28px;
+    opacity:0; animation:reveal .8s ease forwards; animation-delay:.1s;
+  }
+  .eyebrow::before{ content:''; width:34px; height:1px; background:var(--accent); }
+
+  h1.name{
+    font-family:var(--serif); font-weight:400; font-style:normal;
+    font-size:clamp(48px, 9vw, 118px); line-height:.94; letter-spacing:-.02em;
+    opacity:0; animation:reveal 1s ease forwards; animation-delay:.25s;
+  }
+  h1.name em{ font-style:italic; font-weight:300; color:var(--ink-dim); }
+
+  .role{
+    font-family:var(--mono); font-size:clamp(15px,2vw,20px); color:var(--ink-dim);
+    margin-top:22px; max-width:640px;
+    opacity:0; animation:reveal .9s ease forwards; animation-delay:.45s;
+  }
+  .role strong{ color:var(--ink); font-weight:500; }
+
+  .summary-grid{
+    display:grid; grid-template-columns:repeat(2, 1fr); gap:20px; margin-top:34px;
+    opacity:0; animation:reveal .9s ease forwards; animation-delay:.6s;
+  }
+  .summary-card{
+    background:var(--bg-soft); padding:22px 24px; font-size:14px; line-height:1.65; color:var(--ink-dim); cursor: pointer;
+    transition:background .3s, color .3s;
+  }
+  .summary-card:hover{ background:#161811; color:var(--ink); }
+  .summary-card b{ display:block; font-family:var(--serif); font-size:17px; font-weight:500; color:var(--accent); margin-bottom:14px; }
+
+  .hero-meta{
+    display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-top:46px;
+    font-size:13px; color:var(--ink-faint);
+    opacity:0; animation:reveal .9s ease forwards; animation-delay:.75s;
+  }
+  .hero-meta a{ color:var(--ink-dim); border-bottom:1px solid var(--line); padding-bottom:2px; transition:.3s; }
+  .hero-meta a:hover{ color:var(--accent); border-color:var(--accent); }
+  .hero-meta .dot{ color:var(--accent); }
+
+  @keyframes reveal{
+    from{ opacity:0; transform:translateY(18px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  /* ---------- section shells ---------- */
+  section{ position:relative; z-index:1; padding:120px 0; }
+
+  .section-head{
+    display:flex; align-items:center; gap:18px; margin-bottom:36px;
+  }
+  .section-head .num{ font-size:13px; color:var(--accent); }
+  .section-head h2{
+    font-family:var(--serif); font-weight:400; font-size:clamp(30px,4vw,46px); letter-spacing:-.01em;
+  }
+  .section-head .rule{ flex:1; height:1px; background:var(--line); }
+
+  .reveal-on-scroll{ opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s ease; }
+  .reveal-on-scroll.in{ opacity:1; transform:translateY(0); }
+
+  /* ---------- experience ---------- */
+  .timeline{ display:flex; flex-direction:column; }
+
+  .job{
+    display:grid; grid-template-columns:max-content 1fr; gap:32px;
+    padding:24px 0;
+    position:relative;
+  }
+
+  .job .period{
+    font-size:12.5px; color:var(--ink-faint); letter-spacing:.04em; padding-top:6px;
+  }
+  .job .period .current{ color:var(--accent); }
+
+  .job-head{ display:flex; flex-wrap:wrap; align-items:baseline; gap:14px; margin-bottom:8px; }
+  .job-head h3{ font-family:var(--serif); font-size:26px; font-weight:500; }
+  .job-head .company-tag{ font-size:12px; color:var(--bg); background:var(--accent); padding:3px 10px; border-radius:20px; text-transform:uppercase; letter-spacing:.04em; }
+  .job-role{ font-size:14.5px; color:var(--ink-dim); margin-bottom:14px; }
+  .job-blurb{ font-size:14.5px; color:var(--ink-faint); max-width:620px; line-height:1.75; margin-bottom:8px; }
+
+  .stack{ display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+  .stack span{
+    font-size:12px; padding:5px 11px; border:1px solid var(--line); border-radius:4px; color:var(--ink-dim);
+    transition:border-color .3s, color .3s;
+  }
+  .stack span:hover{ border-color:var(--accent); color:var(--accent); cursor: pointer; }
+
+  .accordion-toggle{
+    display:inline-flex; align-items:center; gap:8px;
+    background:none; border:none; cursor:pointer; padding:0;
+    font-family:var(--mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--accent);
+  }
+  .accordion-toggle .chev{
+    width:9px; height:9px; border-right:1px solid var(--accent); border-bottom:1px solid var(--accent);
+    transform:rotate(45deg); transition:transform .35s ease; margin-top:-3px;
+  }
+  .accordion-toggle[aria-expanded="true"] .chev{ transform:rotate(225deg); margin-top:3px; }
+  .accordion-toggle:hover{ color:var(--ink); }
+  .accordion-toggle:hover .chev{ border-color:var(--ink); }
+
+  .accordion{
+    display:grid; grid-template-rows:0fr; transition:grid-template-rows .45s ease;
+  }
+  .accordion.open{ grid-template-rows:1fr; }
+  .accordion-inner{ overflow:hidden; }
+  .achievements{
+    list-style:none; padding-top:18px; display:flex; flex-direction:column; gap:8px; max-width:600px;
+  }
+  .achievements li{
+    position:relative; padding-left:20px; font-size:14px; color:var(--ink-dim); line-height:1.65;
+  }
+  .achievements li::before{
+    content:''; position:absolute; left:0; top:8px; width:6px; height:6px; background:var(--accent);
+  }
+
+  /* ---------- skills ---------- */
+  .skills-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:20px; }
+  .skill-cat{ background:var(--bg-soft); padding:36px; transition:background .35s; }
+  .skill-cat:hover{ background:#161811; }
+  .skill-cat h4{
+    font-family:var(--mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent);
+    margin-bottom:14px;
+  }
+  .skill-list{ display:flex; flex-wrap:wrap; gap:8px 0; }
+  .skill-list span{
+    font-family:var(--serif); font-size:19px; color:var(--ink);
+    position:relative; margin-right:8px;
+  }
+  .skill-list span:not(:last-child)::after{ content:'·'; color:var(--accent); margin-left:8px; }
+
+  /* ---------- contact / footer ---------- */
+  .contact{ text-align:left; }
+  .contact h2.big{
+    font-family:var(--serif); font-weight:400; font-size:clamp(38px,7vw,84px); letter-spacing:-.02em; line-height:1.05;
+    margin-top:20px;
+  }
+  .contact h2.big em{ font-style:italic; color:var(--accent); }
+
+  .contacts-block{ margin-top: 24px; }
+  .contacts-row{ display:flex; flex-wrap:wrap; gap:32px; }
+  .contacts-row a{
+    position:relative;
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--serif); font-size:clamp(16px,2.4vw,22px); color:var(--ink-dim);
+    transition:color .3s;
+  }
+  .contacts-row a::after{
+    content:''; position:absolute; left:0; bottom:-6px; width:0; height:1px;
+    background:var(--accent); transition:width .3s ease;
+  }
+  .contacts-row a:hover{ color:var(--ink); }
+  .contacts-row a:hover::after{ width:100%; }
+
+  footer{
+    padding:80px clamp(20px,5vw,64px) 40px; display:flex; justify-content:space-between; align-items:center;
+    font-size:12px; color:var(--ink-faint); flex-wrap:wrap; gap:16px;
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:760px){
+    nav.links{
+      position:fixed; top:0; right:0; height:100svh; width:min(78vw, 320px);
+      background:var(--bg-soft); flex-direction:column; justify-content:center; gap:30px;
+      padding:40px; transform:translateX(100%); transition:transform .4s ease;
+      border-left:1px solid var(--line);
+    }
+    nav.links.open{ transform:translateX(0); }
+    .menu-btn{ display:flex; }
+    .menu-btn.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+    .menu-btn.open span:nth-child(2){ opacity:0; }
+    .menu-btn.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+
+    .job{ grid-template-columns:1fr; gap:8px; }
+    .skills-grid{ grid-template-columns:1fr; }
+    .summary-grid{ grid-template-columns:1fr; }
+    section{ padding:80px 0; }
+    footer{ padding-top:80px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:.01ms !important; transition-duration:.01ms !important; scroll-behavior:auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="glow"></div>
+
+<header>
+  <a href="#top" class="logo">K<span>.</span>K</a>
+  <button class="menu-btn" id="menuBtn" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  <nav class="links" id="navLinks">
+    <a href="#about" data-close>About</a>
+    <a href="#experience" data-close>Experience</a>
+    <a href="#skills" data-close>Skills</a>
+    <a href="#contact" data-close>Contact</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero wrap">
+    <div class="eyebrow">Frontend Software Engineer</div>
+    <h1 class="name">Kirill<br><em>Kucherov</em></h1>
+    <p class="role">7+ years building <strong>scalable web applications</strong> and leading engineering teams — from MVP to production.</p>
+    <div class="summary-grid" id="about">
+      <div class="summary-card"><b>Architecture</b>Designed systems using Feature-Sliced Design for long-term scalability.</div>
+      <div class="summary-card"><b>Leadership</b>Hired and mentored engineers, growing teams around solid practice.</div>
+      <div class="summary-card"><b>Impact</b>Shipped features that moved core business metrics, not just tickets.</div>
+      <div class="summary-card"><b>Delivery</b>Balances code quality with speed — MVP to production, repeatedly.</div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="wrap" id="experience">
+    <div class="section-head reveal-on-scroll">
+      <span class="num">01</span>
+      <h2>Experience</h2>
+      <span class="rule"></span>
+    </div>
+
+    <div class="timeline">
+
+      <div class="job reveal-on-scroll">
+        <div class="period">Jan 2024 — <span class="current">Present</span></div>
+        <div>
+          <div class="job-head">
+            <h3>SHEIN</h3>
+            <span class="company-tag">E-commerce</span>
+          </div>
+          <div class="job-role">Lead Frontend Developer · Remote</div>
+          <p class="job-blurb">Global fast-fashion e-commerce platform — led storefront architecture and mentored engineers at high scale.</p>
+          <button class="accordion-toggle" aria-expanded="false">
+            <span>Key achievements</span><span class="chev"></span>
+          </button>
+          <div class="accordion">
+            <div class="accordion-inner">
+              <ul class="achievements">
+                <li>Led the technical decision to migrate from SWR + Zustand to Effector, reducing state-related bugs by ~30% and decreasing feature development time by ~25%, accelerating time-to-market for critical product features.</li>
+                <li>Implemented Feature-Sliced Design (FSD), reducing code review cycles for new engineers and accelerating their ramp-up time.</li>
+                <li>Assembled and led a team of 5 frontend engineers who adopted best practices in code quality and accelerated feature delivery velocity.</li>
+                <li>Developed and deployed a UI kit with Storybook documentation, improving design-to-development handoff efficiency and accelerating feature implementation velocity.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="stack">
+            <span>React</span><span>TypeScript</span><span>Zustand</span><span>Effector</span><span>SWR</span><span>SCSS Modules</span><span>Storybook</span><span>Feature-Sliced Design</span><span>Vite</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="job reveal-on-scroll">
+        <div class="period">Oct 2022 — Dec 2023</div>
+        <div>
+          <div class="job-head">
+            <h3>GetMobi</h3>
+            <span class="company-tag">Fintech</span>
+          </div>
+          <div class="job-role">Senior Frontend Developer · Remote</div>
+          <p class="job-blurb">Mobile-first fintech product — built client-facing interfaces and introduced Feature-Sliced Design to the codebase.</p>
+          <button class="accordion-toggle" aria-expanded="false">
+            <span>Key achievements</span><span class="chev"></span>
+          </button>
+          <div class="accordion">
+            <div class="accordion-inner">
+              <ul class="achievements">
+                <li>Designed the fintech app's architecture, including game mechanics with a leaderboard, daily login rewards, and an income/expense tracking calendar.</li>
+                <li>Developed gamification mechanics (leaderboard, daily login rewards) for the finance tracker, boosting daily engagement and increasing average session frequency by ~20%.</li>
+                <li>Built an LLM-powered financial assistant enabling users to add expenses and get spending summaries through natural language commands, reducing manual entry friction and increasing consistent financial tracking by ~20%.</li>
+                <li>Set up Google Analytics to track user clicks and in-app actions, giving the team visibility into how users engaged with game mechanics and financial features.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="stack">
+            <span>SolidJS</span><span>Effector</span><span>Tailwind</span><span>SCSS</span><span>Vite</span><span>Feature-Sliced Design</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="job reveal-on-scroll">
+        <div class="period">Jan 2019 — Sep 2022</div>
+        <div>
+          <div class="job-head">
+            <h3>Toptal</h3>
+            <span class="company-tag">B2B services</span>
+          </div>
+          <div class="job-role">Frontend Developer · Remote</div>
+          <p class="job-blurb">Global marketplace for vetted freelance talent — delivered production features across multiple client engagements.</p>
+          <button class="accordion-toggle" aria-expanded="false">
+            <span>Key achievements</span><span class="chev"></span>
+          </button>
+          <div class="accordion">
+            <div class="accordion-inner">
+              <ul class="achievements">
+                <li>Migrated the legacy codebase from JavaScript to TypeScript and Effector, reducing production bugs by ~25%.</li>
+                <li>Built a defect-tracking system with photo capture and equipment registry, reducing time to identify recurring equipment issues by ~30% and improving maintenance response time.</li>
+                <li>Developed an interactive map tracking worker checkpoints and inspection routes, giving management full visibility into walkthrough completion and reducing missed inspections by ~20%.</li>
+                <li>Built a shift and hours-tracking calendar for employee quotas, cutting manual reporting time by ~40% and streamlining workforce analysis for plant management.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="stack">
+            <span>React</span><span>TypeScript</span><span>Effector</span><span>Redux Toolkit</span><span>Material UI</span><span>SCSS</span><span>Webpack</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="wrap" id="skills">
+    <div class="section-head reveal-on-scroll">
+      <span class="num">02</span>
+      <h2>Skills</h2>
+      <span class="rule"></span>
+    </div>
+
+    <div class="skills-grid reveal-on-scroll">
+      <div class="skill-cat">
+        <h4>Languages &amp; Frameworks</h4>
+        <div class="skill-list"><span>TypeScript</span><span>JavaScript (ES6+)</span><span>React</span><span>SolidJS</span><span>Node.js</span></div>
+      </div>
+      <div class="skill-cat">
+        <h4>State Management &amp; Data</h4>
+        <div class="skill-list"><span>Effector</span><span>Zustand</span><span>Redux Toolkit</span><span>SWR</span><span>Context API</span></div>
+      </div>
+      <div class="skill-cat">
+        <h4>Styling &amp; UI</h4>
+        <div class="skill-list"><span>SCSS</span><span>CSS/SCSS Modules</span><span>Tailwind</span><span>CSS-in-JS</span><span>Storybook</span><span>Material UI</span><span>Ant Design</span></div>
+      </div>
+      <div class="skill-cat">
+        <h4>Architecture &amp; Tooling</h4>
+        <div class="skill-list"><span>Feature-Sliced Design</span><span>Vite</span><span>Webpack</span><span>Babel</span><span>Git</span><span>Docker</span><span>npm / yarn / pnpm</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="wrap contact" id="contact">
+    <h2 class="big reveal-on-scroll">Let's work <em>together!</em></h2>
+  </section>
+
+  <!-- CONTACTS -->
+  <section class="wrap contacts-block" id="contacts">
+    <div class="contacts-row reveal-on-scroll">
+      <a href="https://www.linkedin.com/in/k-kucherov" target="_blank" rel="noopener"><span>LinkedIn</span></a>
+      <a href="mailto:kka.job@outlook.com"><span>kka.job@outlook.com</span></a>
+      <a href="tel:+995591279466"><span>+995 591 27 94 66</span></a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span class="footer-name">@2026 Kirill Kucherov</span>
+</footer>
+
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const navLinks = document.getElementById('navLinks');
+  menuBtn.addEventListener('click', () => {
+    menuBtn.classList.toggle('open');
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('[data-close]').forEach(a => {
+    a.addEventListener('click', () => {
+      menuBtn.classList.remove('open');
+      navLinks.classList.remove('open');
+    });
+  });
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold:.15 });
+
+  document.querySelectorAll('.reveal-on-scroll').forEach(el => io.observe(el));
+
+  document.querySelectorAll('.accordion-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      btn.nextElementSibling.classList.toggle('open');
+    });
+  });
+</script>
+
+</body>
+</html>
